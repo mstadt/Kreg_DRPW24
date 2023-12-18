@@ -1,4 +1,4 @@
-# Kreg_DRPW24
+# K regulation W24 WiM DRP
 This is the K regulation model used for the W24 WiM DRP.
 
 # Driver files
@@ -10,9 +10,9 @@ K model.
 Run this script to run a single meal simulation
 
 # Functions
-### kreg_eqns.m 
+### kreg_eqns 
 This file contains the model equations.
 
-### set_params()
+### set_params
 This file sets the parameter values. 
 Use **par2vector** to change to a vector.
