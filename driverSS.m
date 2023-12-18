@@ -4,9 +4,8 @@
 clear all;
 
 %% User input
-% Here you can change results to 
+% Here users can change parameters/settings to 
 % see how it impacts the steady state
-
 %--------------------------
 % Begin user input
 %--------------------------

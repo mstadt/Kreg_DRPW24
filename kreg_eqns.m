@@ -145,23 +145,6 @@ else
 end
 
 % renal K handling
-
-% if highK_eff > 0
-%     if highK_eff == 1
-%         GFR = (1 - 0.29) * 0.125;
-%         eta_ptKreab = 0.36; % lower fractional PT reab
-%     elseif highK_eff == 2
-%         eta_ptKreab = 0.36; % lower fractional PT reab only
-%     elseif highK_eff == 3
-%         GFR = (1 - 0.29) * 0.125; % GFR change only
-%     else
-%         fprintf('What is this highK_eff? %i', highK_eff)
-%     end
-% end
-
-% NOTE: should be able to make highK_eff happen by changing
-% TGF instead
-
 eta_psKreab_base = eta_ptKreab_base + eta_LoHKreab;
 if TGF_eff == 1
     eta_psKreab = eta_ptKreab + eta_LoHKreab;
@@ -219,9 +202,6 @@ ins_A = A_insulin; ins_B = 100*B_insulin;
 temp = (ins_A.*(L./(1+exp(-k.*(log10(C_insulin)-log10(x0)))))+ ins_B)./100;
 if do_insulin
     rho_insulin = max(1.0,temp);
-    %disp(C_insulin)
-    %disp(temp)
-    %disp(rho_insulin)
 else
     rho_insulin = 1;
 end
