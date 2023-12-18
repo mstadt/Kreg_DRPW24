@@ -1,15 +1,30 @@
 % Plots 3 outputs from driverMeal.m with compute_vars output
 % Choose MealOnly, KCl Only and Meal + KCl to show the 3 Preston
 % experiments
-% This is used in manuscript
 
 clear all;
-%% load data
+%---------------------
+% Begin user input
+%---------------------
+% File names where simulation results are stored
 % Meal Only simulation results
 f_MealOnly = './MealSim/18-Dec-2023_driverMeal_insulin-1_Kin-0_notes-InsulinOnly.mat';
-f_KClOnly = './MealSim/18-Dec-2023_driverMeal_insulin-0_Kin-35_notes-KClOnly.mat';
-f_MealKCl = './MealSim/18-Dec-2023_driverMeal_insulin-1_Kin-35_notes-MealKCl.mat';
+lab1 = 'Meal Only'; % label for figures
 
+
+% KCl Only simulation results
+f_KClOnly = './MealSim/18-Dec-2023_driverMeal_insulin-0_Kin-35_notes-KClOnly.mat';
+lab2 = 'KCl Only'; % label for figures
+
+% Meal + KCl simulation results
+f_MealKCl = './MealSim/18-Dec-2023_driverMeal_insulin-1_Kin-35_notes-MealKCl.mat';
+lab3 = 'Meal + KCl'; % label for figures
+%----------------------
+% End user input
+%----------------------
+
+
+%% Load Data
 dat1 = load(f_MealOnly);
 dat2 = load(f_KClOnly);
 dat3 = load(f_MealKCl);
@@ -18,9 +33,6 @@ dat3 = load(f_MealKCl);
 f_PrestonDat = './PrestonData/20-Jun-2023_PrestonData.mat';
 PrestonDat = load(f_PrestonDat);
 
-lab1 = 'Meal Only';
-lab2 = 'KCl Only';
-lab3 = 'Meal + KCl';
 
 %% make figures
 fprintf('making figures \n')

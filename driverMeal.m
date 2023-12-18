@@ -193,7 +193,7 @@ grid on
 
 
 %% save simulations options
-save_sim = input('save simulation? (0/1) ');
+save_sim = input('Do you want to save the simulation? (0 - no/1 - yes) ');
 if save_sim
     notes = input('notes: ');
     fname = strcat('./MealSim/', date, '_driverMeal', ...
