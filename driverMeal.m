@@ -1,13 +1,14 @@
 % This script can be used to simulate a single meal.
 % The output is saved to ./MealSim/
 % Save output to ./MealSim/
-clear all;
+clear all; 
 %--------------------
 % User input
-%-------------------
-MealInsulin = 0; % set to 0 for no insulin
-Kamt = 35; % amount of K in meal
+%--------------------
+MealInsulin = 1; % set to 0 for no insulin
+Kamt = 0; %35; % amount of K in meal
 
+meal_len = 30; % length of meal in minutes
 % muscle-kidney cross talk options
 MKX = 0; MKXslope = 0; 
 %-------------------
@@ -53,7 +54,7 @@ vals1 = compute_vars(t1,y1,params,...
 %% add a meal with glucose
 % NOTE: need to restart t from 0 to get insulin dynamics, shift later
 t0 = 0; 
-tf = t0 + 30;
+tf = t0 + meal_len; % add length of meal
 tspan = [t0, tf];
 IC = y1(end,:);
 Kintake = Kamt/(tf - t0);
@@ -73,9 +74,9 @@ vals2 = compute_vars(t2,y2,params,...
 % done K intake
 IC = y2(end,:);
 t0 = t2(end);
-tf = t0 + 1000 - 30;
+tf = t0 + 1000 - meal_len;
 tspan = [t0, tf];
-Kintake = 0;
+Kintake = 0; % back to fasting state
 [t3,y3] = ode15s(@(t,y) kreg_eqns(t,y,params,...
                             'alt_sim', alt_sim,...
                             'do_MKX', [MKX, MKXslope],...
