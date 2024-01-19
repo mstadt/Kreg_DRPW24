@@ -120,6 +120,7 @@ else
 end
 K_intake   = (1-fecal_excretion)*Phi_Kin;
 Gut2plasma = kgut*M_Kgut;
+% MKgut
 dydt(1) = K_intake - Gut2plasma;
 
 
@@ -192,6 +193,7 @@ cdKreab = dtK*A_cdKreab*eta_cdKreab;
 
 UrineK   = dtK + cdKsec - cdKreab;
 
+% MKplasma
 dydt(2) = Gut2plasma - Plas2ECF - UrineK;
 
 %% Interstitial K (M_Kinter)
@@ -210,9 +212,11 @@ eta_NKA = rho_insulin * rho_al;
 Inter2Muscle = eta_NKA* ((Vmax * K_inter)/(Km + K_inter));
 Muscle2Inter = P_muscle*(K_muscle - K_inter);
 
+% MKinter
 dydt(3) = Plas2ECF - Inter2Muscle + Muscle2Inter;
 
 %% Intracellular K (M_Kmuscle)
+% MKintracellular
 dydt(4) = Inter2Muscle - Muscle2Inter;
 
 end
