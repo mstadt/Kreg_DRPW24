@@ -56,7 +56,7 @@ vals1 = compute_vars(t1,y1,params,...
 t0 = 0; 
 tf = t0 + meal_len; % add length of meal
 tspan = [t0, tf];
-IC = y1(end,:);
+IC = y1(end,:); % end of the previous simulation
 Kintake = Kamt/(tf - t0);
 do_insulin = MealInsulin; % add glucose componenent
 [t2,y2] = ode15s(@(t,y) kreg_eqns(t,y,params,...
@@ -71,6 +71,9 @@ vals2 = compute_vars(t2,y2,params,...
                         'do_insulin', do_insulin,...
                         'do_FF', do_FF,...
                         'do_MKX', [MKX, MKXslope]);
+
+t2 = t2 + t1(end); % shift by t1
+
 % done K intake
 IC = y2(end,:);
 t0 = t2(end);
@@ -85,7 +88,7 @@ Kintake = 0; % back to fasting state
                             'Kintake', Kintake), ...
                             tspan, IC, options);
 
-t2 = t2 + t1(end); % shift by t1
+
 vals3 = compute_vars(t3,y3,params,...
                         'do_insulin', do_insulin,...
                         'do_FF', do_FF,...
@@ -93,6 +96,9 @@ vals3 = compute_vars(t3,y3,params,...
 
 
 t3 = t3 + t1(end); % shift by t1
+
+
+% Full simulation pieced together
 t = [t1;t2;t3];
 y = [y1;y2;y3];
 

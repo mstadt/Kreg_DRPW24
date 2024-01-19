@@ -84,6 +84,19 @@ SS = temp.SS;
 % These functions are used within this script
 % Meal simulation
 function [t, y, vals] = meal_sim(IC, t0, len_meal, Kamt, params, opts)
+    % Meal simulation
+    % Inputs:
+    %    IC -- initial condition
+    %    t0 -- time to start simulation
+    %    len_meal -- how long meal is (minutes)
+    %    Kamt --- how much K in the meal
+    %    params -- parameters
+    %    opts -- simulation settings
+
+    % Output:
+    %   t -- timepoints
+    %   y -- variable outpus
+    %   vals -- extra variable outputs
     tf = t0 + len_meal; % meal length
     tspan = [t0, tf];
     Kintake = Kamt / (tf - t0);
@@ -104,6 +117,16 @@ end
 
 % Fasting simulation
 function [t, y, vals] = fast_sim(IC, tspan, last_meal, params, opts)
+    % Fasting simulation
+    % IC -- initial condition
+    % tspan -- [start_time, end_time]
+    % last_meal -- start time of the last meal
+    % params -- parameters
+    % opts -- simulation settings
+
+    %  t -- timesteps
+    %  y -- variable outputs
+    %  vals -- extra variable outputs
     options = odeset('RelTol', 1.0e-6, 'AbsTol', 1e-9); % ode solver settings
     [t, y] = ode15s(@(t,y) kreg_eqns(t,y,params,...
                                 'do_insulin', opts.do_insulin,...
