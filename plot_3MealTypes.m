@@ -8,16 +8,16 @@ clear all;
 %---------------------
 % File names where simulation results are stored
 % Meal Only simulation results
-f_MealOnly = './MealSim/18-Dec-2023_driverMeal_insulin-1_Kin-0_notes-InsulinOnly.mat';
+f_MealOnly = './MealSim/19-Jan-2024_driverMeal_insulin-1_Kin-0_notes-insonly.mat';
 lab1 = 'Meal Only'; % label for figures
 
 
 % KCl Only simulation results
-f_KClOnly = './MealSim/18-Dec-2023_driverMeal_insulin-0_Kin-35_notes-KClOnly.mat';
+f_KClOnly = './MealSim/19-Jan-2024_driverMeal_insulin-0_Kin-35_notes-kclonly.mat';
 lab2 = 'KCl Only'; % label for figures
 
 % Meal + KCl simulation results
-f_MealKCl = './MealSim/18-Dec-2023_driverMeal_insulin-1_Kin-35_notes-MealKCl.mat';
+f_MealKCl = './MealSim/19-Jan-2024_driverMeal_insulin-1_Kin-35_notes-mealkcl.mat';
 lab3 = 'Meal + KCl'; % label for figures
 %----------------------
 % End user input
