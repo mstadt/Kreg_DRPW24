@@ -53,29 +53,117 @@ SS = temp.SS;
     'do_MKX', opts.do_MKX,...
     'do_figs', 0); % start at SS
 
-%% Run simulations
+%IC0 = IC;
+
+%% Run simulations of intake for multiple meals
+fprintf('run 3 meals \n')
 % Run 1 day of meals
-% if MealTimes(1) > 0
-%     % start with a fasting simulation if not starting at 0
-%     [tf, yf, ~] = fast_sim(IC0, [0,MealTimes(1)], -60*6, params, opts);
-%     T = tf;
-%     Y = yf;
-% else
-%     error('MealTimes(1) = 0') % should not have meal at 0
-% end
-% % Simulate meals
-% for ii = 1:length(MealTimes)
-%     [tm, ym, ~] = meal_sim(Y(end,:), MealTimes(ii), len_meal, Meal_Kamts(ii), ...
-%                                     params, opts);
-%     if ii < length(MealTimes)
-%             t_end = MealTimes(ii+1);
-%         else
-%             t_end = 24 * 60;
-%     end
-%     [tf, yf, ~] = fast_sim(ym(end,:), [tm(end), t_end], tm(1), ...
-%                                     params, opts);
-%     T = [T; tm; tf]; Y = [Y; ym; yf];
-% end
+% Fasting simulation to start
+[tf, yf, ~] = fast_sim(IC, ...
+                    [0,MealTimes(1)],...
+                    -60*60, ... % insulin is low
+                    params,...
+                    opts);
+
+% store full simulation in T and Y
+T = tf; 
+Y = yf;
+
+% Do meal simulations for the day
+for ii = 1:length(MealTimes)
+    % Run meal simulation
+    [tm,ym,~] = meal_sim(Y(end,:), MealTimes(ii), len_meal, Meal_Kamts(ii),...
+                                params, opts);
+
+    % set end point for next fasting step
+    if ii<length(MealTimes)
+        t_end = MealTimes(ii+1);
+    else
+        t_end = 24 * 60; % end of day time
+    end
+    % Run fasting simulation
+    [tf,yf, ~] = fast_sim(ym(end,:),[tm(end),t_end],tm(1),...
+                        params,opts);
+    % append meal and fasting simulation to T and Y
+    T = [T;tm;tf]; Y = [Y;ym;yf];
+end
+fprintf('simulation done \n')
+
+%----------------------
+% plot results
+%---------------------
+T = T./60; % change time to hours
+fprintf('plotting results \n')
+figure(1);
+clf;
+nr = 2; nc = 2;
+lw = 3; lwgray = 2; lsgray = '--';
+cmap = parula(6);
+c1 = cmap(1,:); c2 = cmap(2,:); c3 = cmap(3,:); c4 = cmap(4,:);
+cgraymap = gray(5);
+cgray = cgraymap(3,:);
+subplot(nr,nc,1)
+plot(T, Y(:,1), 'linewidth', lw, color = c1)
+xlabel('Time (hrs)')
+ylabel('Gut amount')
+title('Gut amount')
+set(gca,'fontsize',18)
+xlim([0,24])
+grid on
+
+subplot(nr,nc,2)
+hold on
+plot(T,Y(:,2)/pars.V_plasma, 'linewidth',lw,'color',c2)
+yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
+yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
+xlabel('Time (hrs)')
+ylabel('Plasma [K^+]')
+title('Plasma [K^+]')
+set(gca,'fontsize',18)
+xlim([0,24])
+grid on
+
+subplot(nr,nc,3)
+hold on
+plot(T,Y(:,3)/pars.V_interstitial,'linewidth',lw,'color',c3)
+yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
+yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
+xlabel('Time (hrs)')
+ylabel('Interstitial [K^+]')
+title('Interstitial [K^+]')
+set(gca,'fontsize',18)
+xlim([0,24])
+grid on
+
+subplot(nr,nc,4)
+hold on
+plot(T,Y(:,4)/pars.V_muscle,'linewidth',lw,'color',c4)
+yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
+yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
+xlabel('Time (hrs)')
+ylabel('Intracellular [K^+]')
+title('Intracellular [K^+]')
+set(gca,'fontsize',18)
+xlim([0,24])
+grid on
+
+%% save simulations options
+save_sim = input('Do you want to save the simulation? (0 - no/1 - yes) ');
+if save_sim
+    notes = input('notes: ');
+    fname = strcat('./MultiMealSim/', date, '_driverMultiMeal', ...
+                    '_doinsulin-',num2str(doinsulin),...
+                    '_doFF-', num2str(doFF),...
+                    '_doMKX-',num2str(doMKX),...
+                    '_notes-', notes, ...
+                    '.mat');
+    save(fname, 'T', 'Y', ...
+                'pars', 'params', 'parnames',...
+                'MealTimes', 'Meal_Kamts', ... % meal settings
+                'opts') % simulation settings
+    fprintf('results saved to: \n %s \n', fname)
+end
+
 
 %% Functions used
 %---------------------

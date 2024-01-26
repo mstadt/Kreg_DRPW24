@@ -6,7 +6,7 @@ clear all;
 % User input
 %--------------------
 MealInsulin = 1; % set to 0 for no insulin
-Kamt = 0; %35; % amount of K in meal
+Kamt = 35; %0; %35; % amount of K in meal
 
 meal_len = 30; % length of meal in minutes
 % muscle-kidney cross talk options
