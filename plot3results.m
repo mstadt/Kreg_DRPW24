@@ -1,4 +1,4 @@
-% Use this script to plot 2 results from driver_MultiMeal.m
+% Use this script to plot 3 results from driver_MultiMeal.m
 clear all;
 
 fname1 = './MultiMealSim/26-Jan-2024_driverMultiMeal_doinsulin-1_doFF-1_doMKX-0_notes-try1.mat';

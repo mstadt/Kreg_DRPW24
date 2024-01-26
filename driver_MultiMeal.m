@@ -26,8 +26,8 @@ pars = set_params();
 
 %% simulation settings
 % Meal times
-MealTimes = [6, 12, 18] * 60; % meal times 
-Meal_Kamts = [Kamt_meal, Kamt_meal, Kamt_meal];%Kamt_meal*ones(size(MealTimes)); % amounts of K per meal
+MealTimes = [6,12,15,18,22]*60; %[6, 12, 18] * 60; % meal times 
+Meal_Kamts = Kamt_meal*ones(size(MealTimes)); % amounts of K per meal
 opts.do_insulin = doinsulin;
 opts.do_FF = doFF;
 if doMKX > 0

@@ -2,14 +2,14 @@
 clear all;
 
 fname1 = './MultiMealSim/26-Jan-2024_driverMultiMeal_doinsulin-1_doFF-1_doMKX-0_notes-try1.mat';
-fname2 = './MultiMealSim/26-Jan-2024_driverMultiMeal_doinsulin-1_doFF-1_doMKX-0_notes-higherKamt.mat';
+fname2 = './MultiMealSim/26-Jan-2024_driverMultiMeal_doinsulin-1_doFF-1_doMKX-0_notes-extrameals.mat';
 
 
 dat1 = load(fname1);
 dat2 = load(fname2);
 
 lab1 = 'normal Kamt';
-lab2 = 'higher Kamt';
+lab2 = 'extra meals';
 
 
 %----------------------
