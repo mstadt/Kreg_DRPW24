@@ -72,7 +72,7 @@ vals2 = compute_vars(t2,y2,params,...
                         'do_FF', do_FF,...
                         'do_MKX', [MKX, MKXslope]);
 
-t2 = t2 + t1(end); % shift by t1
+
 
 % done K intake
 IC = y2(end,:);
@@ -94,8 +94,8 @@ vals3 = compute_vars(t3,y3,params,...
                         'do_FF', do_FF,...
                         'do_MKX', [MKX, MKXslope]);
 
-
-t3 = t3 + t1(end); % shift by t1
+t2 = t2 + t1(end); % shift by t1
+t3 = t3 + t2(end); % shift by t2
 
 
 % Full simulation pieced together
