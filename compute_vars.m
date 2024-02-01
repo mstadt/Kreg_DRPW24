@@ -40,7 +40,6 @@ ALD_eq = params(26);
 m_K_ALDO = params(27);
 FF = params(28);
 A_insulin = params(29);
-B_insulin = params(30);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
@@ -199,11 +198,14 @@ v.UrineK = dtK + v.cdKsec - v.cdKreab;
 % interstitial K
 v.rho_al = (66.4 + 0.273.* v.C_al)./89.6050;
 % insulin
-L = 100*ones(size(v.C_insulin)); x0 = 0.5381 * ones(size(v.C_insulin)); k = 1.069;
-ins_A = A_insulin * ones(size(v.C_insulin)); ins_B = 100*B_insulin * ones(size(v.C_insulin));
-temp = (ins_A.*(L./(1+exp(-k.*(log10(v.C_insulin)-log10(x0)))))+ ins_B)./100;
+% L = 100*ones(size(v.C_insulin)); x0 = 0.5381 * ones(size(v.C_insulin)); k = 1.069;
+% ins_A = A_insulin * ones(size(v.C_insulin)); ins_B = 100*B_insulin * ones(size(v.C_insulin));
+% temp = (ins_A.*(L./(1+exp(-k.*(log10(v.C_insulin)-log10(x0)))))+ ins_B)./100;
+max_rho = A_insulin;
+m = (max_rho - 1.0)/(0.325 - get_Cinsulin(t_insulin_ss));
+b = max_rho - 0.325 * m;
 if do_insulin
-    v.rho_insulin = max(1.0, temp);
+    v.rho_insulin = max(ones(size(v.C_insulin)),m*v.C_insulin + b);
 else
     v.rho_insulin = ones(size(v.C_insulin));
 end
