@@ -38,7 +38,6 @@ ALD_eq = params(26);
 m_K_ALDO = params(27);
 FF = params(28);
 A_insulin = params(29);
-B_insulin = params(30);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
@@ -199,11 +198,11 @@ dydt(2) = Gut2plasma - Plas2ECF - UrineK;
 %% Interstitial K (M_Kinter)
 rho_al = (66.4 + 0.273*C_al)./89.6050;
 % insulin
-L = 100; x0 = 0.5381; k = 1.069;
-ins_A = A_insulin; ins_B = 100*B_insulin;
-temp = (ins_A.*(L./(1+exp(-k.*(log10(C_insulin)-log10(x0)))))+ ins_B)./100;
+max_rho = A_insulin;
+m = (max_rho - 1.0)/(0.325 - get_Cinsulin(t_insulin_ss));
+b = max_rho - 0.325 * m;
 if do_insulin
-    rho_insulin = max(1.0,temp);
+    rho_insulin = max(1.0,m*C_insulin + b);
 else
     rho_insulin = 1;
 end
